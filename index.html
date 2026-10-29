@@ -1,0 +1,1082 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+  <meta name="theme-color" content="#0F2C59" />
+  <meta name="description" content="Sentinela Infantil — Plataforma Mobile-First (PWA) de conscientização, identificação de sinais de risco e apoio à denúncia segura contra o trabalho infantil e forçado. Projeto de Extensão em Engenharia de Software - Universidade Cruzeiro do Sul (ODS 8 / Meta 8.7)." />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Sentinela Infantil" />
+
+  <title>Sentinela Infantil | Combate ao Trabalho Infantil — ODS 8.7 (Cruzeiro do Sul)</title>
+
+  <!-- PWA Manifest -->
+  <link rel="manifest" href="./manifest.json" />
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%230F2C59'/%3E%3Cpath d='M32 10L14 18v14c0 12.4 7.7 23.9 18 28 10.3-4.1 18-15.6 18-28V18L32 10z' fill='%23F59E0B'/%3E%3Cpath d='M32 16l-13 5.8v10.2c0 9.4 5.5 18.1 13 21.6 7.5-3.5 13-12.2 13-21.6V21.8L32 16z' fill='%230F2C59'/%3E%3Ccircle cx='32' cy='28' r='5' fill='%23FFFFFF'/%3E%3Cpath d='M24 41c0-4.4 3.6-8 8-8s8 3.6 8 8' stroke='%23FFFFFF' stroke-width='3.5' stroke-linecap='round' fill='none'/%3E%3C/svg%3E" />
+
+  <!-- Google Fonts: Inter & Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+            display: ['Plus Jakarta Sans', 'Inter', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              50: '#EFF6FF',
+              100: '#DBEAFE',
+              200: '#BFDBFE',
+              500: '#1D4ED8',
+              600: '#1E40AF',
+              700: '#1E3A8A',
+              800: '#0F2C59',
+              900: '#091B38',
+            },
+            alert: {
+              50: '#FFFBEB',
+              100: '#FEF3C7',
+              400: '#FBBF24',
+              500: '#F59E0B',
+              600: '#D97706',
+              700: '#B45309',
+            }
+          }
+        }
+      }
+    };
+  </script>
+
+  <!-- Custom Styles -->
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body class="bg-slate-100 text-slate-900 font-sans antialiased selection:bg-amber-400 selection:text-slate-950 min-h-screen flex flex-col">
+
+  <!-- Skip to Content for Accessibility -->
+  <a href="#main-content" class="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-50 focus:bg-amber-500 focus:text-slate-950 focus:font-bold focus:px-4 focus:py-2 focus:rounded-lg focus:shadow-lg">
+    Pular para o conteúdo principal
+  </a>
+
+  <!-- Top Institutional App Bar -->
+  <header class="sticky top-0 z-40 bg-brand-800 text-white shadow-md border-b border-brand-700/80">
+    <div class="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between gap-2">
+      <!-- Brand Identity -->
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-amber-500/15 border border-amber-400/40 flex items-center justify-center shrink-0 shadow-inner" aria-hidden="true">
+          <svg class="w-6 h-6 text-amber-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            <path d="M12 8v4"/>
+            <path d="M12 16h.01"/>
+          </svg>
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <h1 class="font-display font-extrabold text-base sm:text-lg tracking-tight leading-none text-white">
+              Sentinela Infantil
+            </h1>
+            <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-bold bg-amber-500 text-slate-950 uppercase tracking-wider">
+              ODS 8.7
+            </span>
+          </div>
+          <p class="text-xs text-blue-200 mt-0.5 truncate max-w-[215px] sm:max-w-none">
+            Extensão Engenharia de Software • Univ. Cruzeiro do Sul
+          </p>
+        </div>
+      </div>
+
+      <!-- Quick Emergency Trigger & High Contrast Toggle -->
+      <div class="flex items-center gap-2">
+        <button id="btn-contrast" type="button" title="Alternar Alto Contraste" aria-label="Alternar modo de alto contraste" class="p-2.5 rounded-xl bg-brand-700 hover:bg-brand-600 text-blue-100 border border-blue-400/25 transition focus:outline-none focus:ring-2 focus:ring-amber-400">
+          <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <path d="M12 2a10 10 0 0 1 0 20z" fill="currentColor"/>
+          </svg>
+        </button>
+
+        <a href="tel:100" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 active:bg-amber-600 text-slate-950 font-extrabold text-xs sm:text-sm shadow-sm transition focus:outline-none focus:ring-2 focus:ring-white" aria-label="Ligar agora para o Disque 100 Direitos Humanos">
+          <svg class="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+          </svg>
+          <span>Disque 100</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Desktop Sub-Navigation Bar (Hidden on Mobile, Visible on md+) -->
+    <nav aria-label="Navegação principal desktop" class="hidden md:block bg-brand-900/90 border-t border-brand-700/60">
+      <div class="max-w-5xl mx-auto px-4 flex items-center gap-2 py-1.5">
+        <button type="button" data-tab-target="inicio" class="nav-tab-btn active-tab px-4 py-2 rounded-lg text-sm font-semibold flex items-center gap-2 transition">
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          <span>1. Início &amp; Panorama</span>
+        </button>
+        <button type="button" data-tab-target="sinais" class="nav-tab-btn px-4 py-2 rounded-lg text-sm font-semibold flex items-center gap-2 transition">
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/><path d="M11 8v6"/><path d="M8 11h6"/></svg>
+          <span>2. Identificar Sinais &amp; Termômetro</span>
+        </button>
+        <button type="button" data-tab-target="denuncia" class="nav-tab-btn px-4 py-2 rounded-lg text-sm font-semibold flex items-center gap-2 transition">
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
+          <span>3. Central de Denúncia</span>
+        </button>
+        <button type="button" data-tab-target="extensao" class="nav-tab-btn px-4 py-2 rounded-lg text-sm font-semibold flex items-center gap-2 transition">
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+          <span>4. Extensão &amp; Avaliação (Cruzeiro do Sul)</span>
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Main Application Container -->
+  <main id="main-content" class="flex-1 max-w-5xl w-full mx-auto px-4 pt-4 pb-28 md:pb-12">
+
+    <!-- ==========================================
+         ABA 1: INÍCIO & PANORAMA (DASHBOARD)
+    =========================================== -->
+    <section id="tab-inicio" data-tab-panel="inicio" class="tab-panel space-y-6">
+
+      <!-- Hero Impact Banner -->
+      <div class="relative overflow-hidden rounded-2xl bg-gradient-to-br from-brand-800 via-brand-700 to-brand-900 text-white p-6 sm:p-8 shadow-xl border border-brand-600/40">
+        <div class="relative z-10 max-w-2xl space-y-4">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/20 border border-amber-400/40 text-amber-300 text-xs font-bold uppercase tracking-wider">
+            <span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
+            Agir Local e Pensar Global • Aliança 8.7 ONU
+          </div>
+
+          <h2 class="font-display font-extrabold text-2xl sm:text-3xl md:text-4xl leading-tight">
+            Trabalho infantil não é ajuda: é violação de direitos e porta para a escravidão moderna.
+          </h2>
+
+          <p class="text-blue-100 text-sm sm:text-base leading-relaxed">
+            No Brasil, <strong class="text-white font-bold">1,65 milhão de crianças e adolescentes</strong> têm sua infância e escolarização interrompidas pela exploração precoce. Saiba reconhecer sinais invisíveis no cotidiano e acione a rede de proteção com segurança e anonimato.
+          </p>
+
+          <div class="pt-2 flex flex-col sm:flex-row gap-3">
+            <button type="button" data-go-tab="sinais" class="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-6 py-4 rounded-xl bg-amber-500 hover:bg-amber-400 active:bg-amber-600 text-slate-950 font-extrabold text-sm sm:text-base shadow-lg shadow-amber-500/20 transition transform active:scale-[0.99]">
+              <svg class="w-5 h-5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+                <line x1="12" y1="9" x2="12" y2="13"/>
+                <line x1="12" y1="17" x2="12.01" y2="17"/>
+              </svg>
+              <span>Identificou uma situação suspeita? Veja como agir</span>
+            </button>
+
+            <button type="button" data-go-tab="denuncia" class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-4 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold text-sm border border-white/25 transition">
+              <svg class="w-5 h-5 text-amber-400 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                <polyline points="14 2 14 8 20 8"/>
+                <line x1="16" y1="13" x2="8" y2="13"/>
+                <line x1="16" y1="17" x2="8" y2="17"/>
+              </svg>
+              <span>Gerar Roteiro de Denúncia Anônima</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Decorative Shield Watermark -->
+        <svg class="hidden sm:block absolute -right-10 -bottom-10 w-64 h-64 text-white/5 pointer-events-none" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+        </svg>
+      </div>
+
+      <!-- Safety Alert Strip -->
+      <div class="rounded-xl bg-amber-50 border-l-4 border-amber-500 p-4 shadow-sm flex items-start gap-3">
+        <svg class="w-6 h-6 text-amber-600 shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+          <circle cx="12" cy="12" r="10"/>
+          <line x1="12" y1="8" x2="12" y2="12"/>
+          <line x1="12" y1="16" x2="12.01" y2="16"/>
+        </svg>
+        <div class="text-xs sm:text-sm text-slate-800 leading-relaxed">
+          <strong class="font-bold text-slate-950">Regra de Ouro de Segurança:</strong> Nunca confronte diretamente o explorador nem exponha a criança no local. Observe discretamente os pontos de referência e acione o <strong>Disque 100</strong>, o <strong>MPT</strong> ou o <strong>Conselho Tutelar</strong>.
+        </div>
+      </div>
+
+      <!-- Section Header: Panorama Brasil -->
+      <div class="space-y-1">
+        <div class="flex items-center justify-between">
+          <h3 class="font-display font-extrabold text-lg sm:text-xl text-brand-800 flex items-center gap-2">
+            <svg class="w-5 h-5 text-amber-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+              <line x1="18" y1="20" x2="18" y2="10"/>
+              <line x1="12" y1="20" x2="12" y2="4"/>
+              <line x1="6" y1="20" x2="6" y2="14"/>
+            </svg>
+            Panorama Real no Brasil (IBGE / OIT / ONU)
+          </h3>
+          <span class="text-xs font-semibold text-slate-600 bg-slate-200/80 px-2.5 py-1 rounded-md">Dados Oficiais</span>
+        </div>
+        <p class="text-xs sm:text-sm text-slate-600">
+          Indicadores epidemiológicos, sociais e jurídicos que fundamentam esta ação extensionista:
+        </p>
+      </div>
+
+      <!-- 3 Main Real Data Cards -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <!-- Destaque 1 -->
+        <article class="bg-white rounded-2xl p-5 shadow-sm border border-slate-200 flex flex-col justify-between hover:shadow-md transition">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="px-2.5 py-1 rounded-lg bg-blue-100 text-brand-800 font-bold text-xs">
+                IBGE • PNAD Contínua
+              </span>
+              <div class="w-9 h-9 rounded-lg bg-brand-50 text-brand-700 flex items-center justify-center font-bold">
+                1
+              </div>
+            </div>
+            <div>
+              <p class="font-display font-extrabold text-3xl sm:text-4xl text-brand-800 tracking-tight">
+                1,65 milhão
+              </p>
+              <p class="text-xs font-bold uppercase tracking-wide text-amber-700 mt-0.5">
+                4,3% da população de 5 a 17 anos
+              </p>
+            </div>
+            <p class="text-sm text-slate-700 leading-relaxed">
+              Cerca de <strong>1,65 milhão de crianças e adolescentes</strong> entre 5 e 17 anos encontram-se em situação de trabalho infantil no Brasil, comprometendo sua frequência escolar, saúde física e desenvolvimento psicossocial.
+            </p>
+          </div>
+          <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
+            <span>Faixa crítica: 5 a 17 anos</span>
+            <span class="font-semibold text-brand-700">Fonte: IBGE</span>
+          </div>
+        </article>
+
+        <!-- Destaque 2 -->
+        <article class="bg-white rounded-2xl p-5 shadow-sm border border-slate-200 flex flex-col justify-between hover:shadow-md transition">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="px-2.5 py-1 rounded-lg bg-amber-100 text-amber-900 font-bold text-xs">
+                Recorte Racial e de Gênero
+              </span>
+              <div class="w-9 h-9 rounded-lg bg-amber-50 text-amber-700 flex items-center justify-center font-bold">
+                2
+              </div>
+            </div>
+            <div class="flex items-baseline gap-3">
+              <div>
+                <p class="font-display font-extrabold text-3xl sm:text-4xl text-amber-600 tracking-tight">
+                  62,7%
+                </p>
+                <p class="text-[11px] font-bold uppercase text-slate-600">Crianças Negras</p>
+              </div>
+              <div class="h-8 w-px bg-slate-200"></div>
+              <div>
+                <p class="font-display font-extrabold text-2xl sm:text-3xl text-brand-800 tracking-tight">
+                  73,5%
+                </p>
+                <p class="text-[11px] font-bold uppercase text-slate-600">No Trab. Doméstico</p>
+              </div>
+            </div>
+            <p class="text-sm text-slate-700 leading-relaxed">
+              A exploração tem cor e gênero devido ao racismo estrutural pós-abolição (1888): <strong>62,7%</strong> das vítimas são crianças negras (pretas e pardas), índice que salta para <strong>73,5% no trabalho infantil doméstico</strong> — onde <strong>mais de 94% são meninas</strong>.
+            </p>
+          </div>
+          <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
+            <span>Mais de 94% meninas no doméstico</span>
+            <span class="font-semibold text-amber-700">FNPETI / OIT</span>
+          </div>
+        </article>
+
+        <!-- Destaque 3 -->
+        <article class="bg-white rounded-2xl p-5 shadow-sm border border-slate-200 flex flex-col justify-between hover:shadow-md transition">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="px-2.5 py-1 rounded-lg bg-red-100 text-red-900 font-bold text-xs">
+                ONU • Aliança 8.7 &amp; Art. 149 CP
+              </span>
+              <div class="w-9 h-9 rounded-lg bg-red-50 text-red-700 flex items-center justify-center font-bold">
+                3
+              </div>
+            </div>
+            <div>
+              <p class="font-display font-extrabold text-2xl sm:text-3xl text-brand-800 tracking-tight">
+                País Pioneiro 8.7
+              </p>
+              <p class="text-xs font-bold uppercase tracking-wide text-red-700 mt-0.5">
+                Adesão Oficial em Maio de 2025
+              </p>
+            </div>
+            <p class="text-sm text-slate-700 leading-relaxed">
+              Em <strong>maio de 2025</strong>, o Brasil tornou-se <strong>País Pioneiro da Aliança 8.7 da ONU</strong>. O trabalho infantil é a principal <strong>porta de entrada para a escravidão moderna</strong> (<strong>Art. 149 do Código Penal</strong>: trabalho forçado, jornada exaustiva, condições degradantes e servidão por dívida).
+            </p>
+          </div>
+          <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
+            <span>Meta 8.7 da Agenda 2030</span>
+            <span class="font-semibold text-red-700">MTE / ONU Brasil</span>
+          </div>
+        </article>
+      </div>
+
+      <!-- Cycle of Vulnerability & Legal Framework Grid -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+        <!-- Funnel / Cycle -->
+        <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-200 space-y-4">
+          <h4 class="font-display font-bold text-base sm:text-lg text-brand-800 flex items-center gap-2">
+            <svg class="w-5 h-5 text-amber-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/>
+            </svg>
+            Como o Ciclo de Exploração Opera
+          </h4>
+          <ol class="space-y-3 text-sm">
+            <li class="flex items-start gap-3 p-3 rounded-xl bg-slate-50 border border-slate-200/80">
+              <span class="w-6 h-6 rounded-full bg-brand-800 text-white font-bold text-xs flex items-center justify-center shrink-0 mt-0.5">1</span>
+              <div>
+                <strong class="text-slate-900 block">Vulnerabilidade Social e Racismo Estrutural</strong>
+                <span class="text-slate-600 text-xs">Baixa renda familiar, exclusão histórica pós-1888 e naturalização cultural do mito de que "é melhor trabalhar do que ficar na rua".</span>
+              </div>
+            </li>
+            <li class="flex items-start gap-3 p-3 rounded-xl bg-amber-50/70 border border-amber-200">
+              <span class="w-6 h-6 rounded-full bg-amber-600 text-white font-bold text-xs flex items-center justify-center shrink-0 mt-0.5">2</span>
+              <div>
+                <strong class="text-slate-900 block">Trabalho Infantil e Evasão Escolar</strong>
+                <span class="text-slate-700 text-xs">Ingresso precoce nas ruas, comércio, lavouras ou casas de terceiros. Cansaço extremo leva à repetência e ao abandono da escola.</span>
+              </div>
+            </li>
+            <li class="flex items-start gap-3 p-3 rounded-xl bg-red-50/70 border border-red-200">
+              <span class="w-6 h-6 rounded-full bg-red-700 text-white font-bold text-xs flex items-center justify-center shrink-0 mt-0.5">3</span>
+              <div>
+                <strong class="text-slate-900 block">Escravidão Moderna (Art. 149 do Código Penal)</strong>
+                <span class="text-slate-700 text-xs">Sem escolaridade e qualificação, jovens são captados por redes de exploração urbana ou rural em jornadas exaustivas e condições degradantes.</span>
+              </div>
+            </li>
+          </ol>
+        </div>
+
+        <!-- Legal Framework & Practical Citizen Actions -->
+        <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-200 flex flex-col justify-between space-y-4">
+          <div class="space-y-3">
+            <h4 class="font-display font-bold text-base sm:text-lg text-brand-800 flex items-center gap-2">
+              <svg class="w-5 h-5 text-brand-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/>
+                <path d="m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/>
+                <path d="M7 21h10"/>
+                <path d="M12 3v18"/>
+                <path d="M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2"/>
+              </svg>
+              Marco Legal Brasileiro (ECA &amp; Constituição)
+            </h4>
+
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5 text-xs">
+              <div class="p-3 rounded-xl bg-red-50 border border-red-200">
+                <span class="font-extrabold text-red-800 block text-sm">&lt; 14 anos</span>
+                <strong class="text-slate-900 block mt-0.5">Proibição Total</strong>
+                <p class="text-slate-600 mt-1">Trabalho expressamente proibido em qualquer modalidade no Brasil.</p>
+              </div>
+              <div class="p-3 rounded-xl bg-amber-50 border border-amber-200">
+                <span class="font-extrabold text-amber-800 block text-sm">14 a 16 anos</span>
+                <strong class="text-slate-900 block mt-0.5">Apenas Aprendiz</strong>
+                <p class="text-slate-600 mt-1">Permitido exclusivamente na condição de Jovem Aprendiz vinculado à escola.</p>
+              </div>
+              <div class="p-3 rounded-xl bg-blue-50 border border-blue-200">
+                <span class="font-extrabold text-brand-800 block text-sm">16 a 18 anos</span>
+                <strong class="text-slate-900 block mt-0.5">Trabalho Protegido</strong>
+                <p class="text-slate-600 mt-1">Proibido trabalho noturno, perigoso, insalubre ou da Lista TIP.</p>
+              </div>
+            </div>
+
+            <div class="p-3.5 rounded-xl bg-brand-50/70 border border-brand-200 text-xs text-slate-700 space-y-1.5">
+              <strong class="text-brand-900 block font-bold">Papel Prático da Comunidade e políticas públicas (PETI / SUAS):</strong>
+              <p>• <strong>Não dê esmolas nem compre produtos vendidos por crianças:</strong> isso mantém a criança fora da escola e alimenta redes de exploração.</p>
+              <p>• <strong>Acione a Abordagem Social:</strong> o <strong>PETI</strong> (Programa de Erradicação do Trabalho Infantil) e os <strong>CREAS/CRAS</strong> integram famílias vulneráveis ao Cadastro Único e programas de transferência de renda.</p>
+            </div>
+          </div>
+
+          <div class="flex items-center justify-between pt-2 border-t border-slate-100">
+            <span class="text-xs text-slate-500">Dúvida se uma situação é ilegal?</span>
+            <button type="button" data-go-tab="sinais" class="text-xs font-bold text-brand-700 hover:text-brand-900 underline flex items-center gap-1">
+              <span>Abrir Guia e Termômetro de Risco</span>
+              <span>→</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ==========================================
+         ABA 2: COMO IDENTIFICAR SINAIS (GUIA + QUIZ)
+    =========================================== -->
+    <section id="tab-sinais" data-tab-panel="sinais" class="tab-panel hidden space-y-6">
+
+      <!-- Header -->
+      <div class="bg-white rounded-2xl p-5 sm:p-6 shadow-sm border border-slate-200 space-y-3">
+        <div class="flex flex-wrap items-center justify-between gap-2">
+          <div>
+            <span class="text-xs font-bold uppercase tracking-wider text-amber-700">Módulo Educativo &amp; Triagem Comunitária</span>
+            <h2 class="font-display font-extrabold text-xl sm:text-2xl text-brand-800">
+              Guia Interativo: Como Identificar Sinais por Local
+            </h2>
+          </div>
+          <a href="#termometro-box" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-amber-100 hover:bg-amber-200 text-amber-900 font-bold text-xs transition">
+            <span>Ir para o Termômetro de Suspeita</span>
+            <span>↓</span>
+          </a>
+        </div>
+        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+          Selecione o ambiente abaixo para filtrar os indicadores visíveis e invisíveis de exploração infantil catalogados pelo Ministério Público do Trabalho, OIT e Lista TIP (Decreto nº 6.481/2008).
+        </p>
+
+        <!-- Category Filter Pills -->
+        <div class="flex items-center gap-2 overflow-x-auto pb-1 pt-1 no-scrollbar" role="tablist" aria-label="Filtrar sinais por categoria de local">
+          <button type="button" data-filter-cat="todos" class="cat-filter-btn active-filter shrink-0 px-3.5 py-2 rounded-xl text-xs font-bold border transition">
+            Todos os Locais (4)
+          </button>
+          <button type="button" data-filter-cat="ruas" class="cat-filter-btn shrink-0 px-3.5 py-2 rounded-xl text-xs font-bold border transition">
+            🏪 Comércio, Feiras e Ruas
+          </button>
+          <button type="button" data-filter-cat="domestico" class="cat-filter-btn shrink-0 px-3.5 py-2 rounded-xl text-xs font-bold border transition">
+            🏠 Trabalho Doméstico (Invisível)
+          </button>
+          <button type="button" data-filter-cat="oficinas" class="cat-filter-btn shrink-0 px-3.5 py-2 rounded-xl text-xs font-bold border transition">
+            ⚙️ Oficinas, Lava-rápidos e Obras (TIP)
+          </button>
+          <button type="button" data-filter-cat="escola" class="cat-filter-btn shrink-0 px-3.5 py-2 rounded-xl text-xs font-bold border transition">
+            🎒 Sinais Físicos e Escolares
+          </button>
+        </div>
+      </div>
+
+      <!-- Guide Cards Container (Populated/Filtered) -->
+      <div id="guide-cards-grid" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <!-- Card 1: Comércio, Feiras e Ruas -->
+        <article data-cat-card="ruas" class="bg-white rounded-2xl p-5 shadow-sm border border-slate-200 space-y-3">
+          <div class="flex items-start justify-between gap-2">
+            <div class="flex items-center gap-2.5">
+              <span class="w-10 h-10 rounded-xl bg-amber-100 text-amber-800 flex items-center justify-center text-lg shrink-0" aria-hidden="true">🏪</span>
+              <div>
+                <h3 class="font-display font-bold text-base text-brand-800">Comércio, Feiras e Ruas</h3>
+                <span class="text-[11px] font-semibold text-amber-700">Urbano Visível • Risco de Atropelamento e Violência</span>
+              </div>
+            </div>
+            <span class="px-2 py-0.5 rounded bg-red-100 text-red-800 font-bold text-[11px]">Lista TIP</span>
+          </div>
+          <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+            Crianças vendendo balas, panos ou produtos em semáforos, carregando peso excessivo (caixas, sacos de recicláveis, carrinhos de feira), trabalhando à noite ou expostas ao sol/chuva sem supervisão e fora do horário escolar.
+          </p>
+          <ul class="space-y-1.5 text-xs text-slate-700 bg-slate-50 p-3 rounded-xl border border-slate-100">
+            <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>Venda ambulante em cruzamentos, bares, praias ou transporte público.</li>
+            <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>Carregamento de caixotes pesados em feiras livres e mercados.</li>
+            <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>Presença de adulto vigiando à distância para recolher o dinheiro.</li>
+          </ul>
+        </article>
+
+        <!-- Card 2: Trabalho Infantil Doméstico (Invisível) -->
+        <article data-cat-card="domestico" class="bg-white rounded-2xl p-5 shadow-sm border border-slate-200 space-y-3">
+          <div class="flex items-start justify-between gap-2">
+            <div class="flex items-center gap-2.5">
+              <span class="w-10 h-10 rounded-xl bg-purple-100 text-purple-800 flex items-center justify-center text-lg shrink-0" aria-hidden="true">🏠</span>
+              <div>
+                <h3 class="font-display font-bold text-base text-brand-800">Trabalho Infantil Doméstico (Invisível)</h3>
+                <span class="text-[11px] font-semibold text-purple-700">73,5% Negras • &gt;94% Meninas • Isolamento Domiciliar</span>
+              </div>
+            </div>
+            <span class="px-2 py-0.5 rounded bg-red-100 text-red-800 font-bold text-[11px]">Proibido &lt;18</span>
+          </div>
+          <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+            Meninas ou meninos morando em casas de terceiros sob o falso pretexto de "ajudar", "ser como da família" ou "estudar na cidade", mas que realizam faxina, cuidam de outras crianças ou cozinham em jornadas exaustivas sem frequentar a escola regularmente.
+          </p>
+          <ul class="space-y-1.5 text-xs text-slate-700 bg-slate-50 p-3 rounded-xl border border-slate-100">
+            <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-purple-500"></span>Exposição a fogão, ferro elétrico, produtos cáusticos e facas.</li>
+            <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-purple-500"></span>Privação de convívio familiar, lazer e restrição de locomoção (Art. 149 CP).</li>
+            <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-purple-500"></span>Sobrecarga doméstica familiar que impede a criança de estudar.</li>
+          </ul>
+        </article>
+
+        <!-- Card 3: Oficinas, Lava-rápidos e Construção Civil -->
+        <article data-cat-card="oficinas" class="bg-white rounded-2xl p-5 shadow-sm border border-slate-200 space-y-3">
+          <div class="flex items-start justify-between gap-2">
+            <div class="flex items-center gap-2.5">
+              <span class="w-10 h-10 rounded-xl bg-red-100 text-red-800 flex items-center justify-center text-lg shrink-0" aria-hidden="true">⚙️</span>
+              <div>
+                <h3 class="font-display font-bold text-base text-brand-800">Oficinas, Lava-rápidos e Construção Civil</h3>
+                <span class="text-[11px] font-semibold text-red-700">Lista TIP (Piores Formas) • Risco Químico e Amputação</span>
+              </div>
+            </div>
+            <span class="px-2 py-0.5 rounded bg-red-100 text-red-800 font-bold text-[11px]">Grave / TIP</span>
+          </div>
+          <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+            Jovens manuseando produtos químicos tóxicos (solventes, ácidos, tintas, agrotóxicos), ferramentas cortantes, graxa, serras elétricas ou máquinas pesadas em oficinas mecânicas, lava-rápidos, marcenarias, carvoarias ou obras.
+          </p>
+          <ul class="space-y-1.5 text-xs text-slate-700 bg-slate-50 p-3 rounded-xl border border-slate-100">
+            <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-red-500"></span>Contato direto com solventes, óleos minerais, poeira de sílica e ruído intenso.</li>
+            <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-red-500"></span>Trabalho em altura, andaimes, fornos ou transporte manual de cargas.</li>
+            <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-red-500"></span>Alto índice de acidentes graves de trabalho e mutilações permanentes.</li>
+          </ul>
+        </article>
+
+        <!-- Card 4: Sinais Físicos e Comportamentais (Escolas/Comunidade) -->
+        <article data-cat-card="escola" class="bg-white rounded-2xl p-5 shadow-sm border border-slate-200 space-y-3">
+          <div class="flex items-start justify-between gap-2">
+            <div class="flex items-center gap-2.5">
+              <span class="w-10 h-10 rounded-xl bg-blue-100 text-brand-800 flex items-center justify-center text-lg shrink-0" aria-hidden="true">🎒</span>
+              <div>
+                <h3 class="font-display font-bold text-base text-brand-800">Sinais Físicos e Comportamentais (Escolas/Comunidade)</h3>
+                <span class="text-[11px] font-semibold text-brand-700">Sentinela Escolar e Universitária • Alerta de Evasão</span>
+              </div>
+            </div>
+            <span class="px-2 py-0.5 rounded bg-amber-100 text-amber-900 font-bold text-[11px]">Atenção</span>
+          </div>
+          <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+            Cansaço extremo, sonolência constante em sala de aula, queda brusca no rendimento escolar, faltas frequentes (risco iminente de evasão), marcas de queimaduras, calosidades ou cortes nas mãos, dores lombares e postura arredia ou medo ao falar da rotina.
+          </p>
+          <ul class="space-y-1.5 text-xs text-slate-700 bg-slate-50 p-3 rounded-xl border border-slate-100">
+            <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-brand-600"></span>Lesões dermatológicas por produtos químicos, graxa sob as unhas ou queimaduras.</li>
+            <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-brand-600"></span>Faltas recorrentes em dias específicos (ex: dias de feira ou colheita).</li>
+            <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-brand-600"></span>Retraimento, ansiedade ou receio de revelar com quem mora ou trabalha.</li>
+          </ul>
+        </article>
+      </div>
+
+      <!-- ==========================================
+           FUNCIONALIDADE EXTRA: TERMÔMETRO DE SUSPEITA
+      =========================================== -->
+      <div id="termometro-box" class="bg-white rounded-2xl p-5 sm:p-6 shadow-md border-2 border-brand-800/15 space-y-5">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-200 pb-4">
+          <div>
+            <span class="inline-flex items-center gap-1.5 text-xs font-extrabold uppercase tracking-wider text-amber-700">
+              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M14 4v10.54a4 4 0 1 1-4 0V4a2 2 0 0 1 4 0Z"/></svg>
+              Checklist Interativo de Risco
+            </span>
+            <h3 class="font-display font-extrabold text-lg sm:text-xl text-brand-800 mt-0.5">
+              Termômetro de Suspeita de Trabalho Infantil
+            </h3>
+            <p class="text-xs sm:text-sm text-slate-600">
+              Marque os sinais observados no local. O algoritmo calcula imediatamente o nível de gravidade e orienta como agir com segurança:
+            </p>
+          </div>
+          <button id="btn-reset-quiz" type="button" class="self-start sm:self-center px-3 py-1.5 rounded-lg border border-slate-300 hover:bg-slate-100 text-xs font-semibold text-slate-700 transition">
+            Limpar seleção
+          </button>
+        </div>
+
+        <!-- Checklist Items -->
+        <div id="risk-checklist" class="grid grid-cols-1 md:grid-cols-2 gap-3">
+          <label class="risk-item flex items-start gap-3 p-3.5 rounded-xl border border-slate-200 hover:border-brand-500 bg-slate-50/60 cursor-pointer transition select-none">
+            <input type="checkbox" value="35" data-label="Criança aparente menor de 14 anos trabalhando" class="risk-checkbox mt-1 w-5 h-5 rounded text-brand-700 focus:ring-brand-600" />
+            <div class="text-xs sm:text-sm">
+              <strong class="font-bold text-slate-900 block">Criança aparentemente menor de 14 anos trabalhando</strong>
+              <span class="text-slate-600 text-xs">Qualquer atividade econômica abaixo de 14 anos é proibida pela Constituição (Art. 7º, XXXIII).</span>
+            </div>
+          </label>
+
+          <label class="risk-item flex items-start gap-3 p-3.5 rounded-xl border border-slate-200 hover:border-brand-500 bg-slate-50/60 cursor-pointer transition select-none">
+            <input type="checkbox" value="30" data-label="Trabalho noturno, em semáforos ou no trânsito" class="risk-checkbox mt-1 w-5 h-5 rounded text-brand-700 focus:ring-brand-600" />
+            <div class="text-xs sm:text-sm">
+              <strong class="font-bold text-slate-900 block">Atuação à noite, em semáforos, feiras ou vias públicas</strong>
+              <span class="text-slate-600 text-xs">Exposição a atropelamentos, aliciamento, violência urbana e intempéries (Lista TIP).</span>
+            </div>
+          </label>
+
+          <label class="risk-item flex items-start gap-3 p-3.5 rounded-xl border border-slate-200 hover:border-brand-500 bg-slate-50/60 cursor-pointer transition select-none">
+            <input type="checkbox" value="35" data-label="Manuseio de químicos, máquinas, fogo ou peso excessivo" class="risk-checkbox mt-1 w-5 h-5 rounded text-brand-700 focus:ring-brand-600" />
+            <div class="text-xs sm:text-sm">
+              <strong class="font-bold text-slate-900 block">Contato com graxa, químicos, ferramentas cortantes ou peso</strong>
+              <span class="text-slate-600 text-xs">Oficinas, lava-rápidos, construção civil, carvoarias ou carregamento de caixas (Lista TIP).</span>
+            </div>
+          </label>
+
+          <label class="risk-item flex items-start gap-3 p-3.5 rounded-xl border border-slate-200 hover:border-brand-500 bg-slate-50/60 cursor-pointer transition select-none">
+            <input type="checkbox" value="35" data-label="Trabalho doméstico em casa de terceiros" class="risk-checkbox mt-1 w-5 h-5 rounded text-brand-700 focus:ring-brand-600" />
+            <div class="text-xs sm:text-sm">
+              <strong class="font-bold text-slate-900 block">Criança/adolescente em serviço doméstico na casa de terceiros</strong>
+              <span class="text-slate-600 text-xs">Faxina, cozinha ou cuidado de crianças sob pretexto de "ajuda" ou moradia (Proibido &lt;18 anos).</span>
+            </div>
+          </label>
+
+          <label class="risk-item flex items-start gap-3 p-3.5 rounded-xl border border-slate-200 hover:border-brand-500 bg-slate-50/60 cursor-pointer transition select-none">
+            <input type="checkbox" value="20" data-label="Fora da escola ou com faltas/sonolência extrema" class="risk-checkbox mt-1 w-5 h-5 rounded text-brand-700 focus:ring-brand-600" />
+            <div class="text-xs sm:text-sm">
+              <strong class="font-bold text-slate-900 block">Atividade em horário escolar, faltas frequentes ou exaustão</strong>
+              <span class="text-slate-600 text-xs">Sonolência constante, queda brusca no rendimento escolar ou abandono dos estudos.</span>
+            </div>
+          </label>
+
+          <label class="risk-item flex items-start gap-3 p-3.5 rounded-xl border border-slate-200 hover:border-brand-500 bg-slate-50/60 cursor-pointer transition select-none">
+            <input type="checkbox" value="25" data-label="Marcas físicas (queimaduras/cortes) ou medo/coerção" class="risk-checkbox mt-1 w-5 h-5 rounded text-brand-700 focus:ring-brand-600" />
+            <div class="text-xs sm:text-sm">
+              <strong class="font-bold text-slate-900 block">Calosidades, queimaduras, cortes nas mãos ou medo visível</strong>
+              <span class="text-slate-600 text-xs">Postura arredia, vigilância por adulto aliciador ou indícios de restrição de liberdade (Art. 149 CP).</span>
+            </div>
+          </label>
+        </div>
+
+        <!-- Thermometer Dynamic Meter & Orientation Result -->
+        <div id="risk-result-panel" class="rounded-2xl p-4 sm:p-5 bg-slate-100 border border-slate-200 space-y-3 transition-all" aria-live="polite">
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <div class="flex items-center gap-2">
+              <span id="risk-badge" class="px-3 py-1 rounded-full text-xs font-extrabold uppercase bg-slate-300 text-slate-800">
+                Aguardando Seleção (0 sinais)
+              </span>
+              <span id="risk-score-text" class="text-xs font-bold text-slate-600">Índice de Gravidade: 0%</span>
+            </div>
+            <span class="text-xs text-slate-500">Triagem baseada no ECA, Lista TIP e Art. 149 CP</span>
+          </div>
+
+          <!-- Progress Bar -->
+          <div class="w-full h-3.5 bg-slate-200 rounded-full overflow-hidden p-0.5">
+            <div id="risk-progress-bar" class="h-full rounded-full bg-brand-600 transition-all duration-300" style="width: 0%"></div>
+          </div>
+
+          <p id="risk-guidance-text" class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+            Selecione um ou mais indicadores acima para avaliar a gravidade da situação observada e receber a orientação imediata de encaminhamento aos órgãos de proteção.
+          </p>
+
+          <div class="pt-1 flex flex-wrap items-center gap-3">
+            <button type="button" id="btn-transfer-to-report" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-brand-800 hover:bg-brand-700 text-white font-bold text-xs sm:text-sm shadow-sm transition">
+              <span>Levar sinais marcados para o Assistente de Denúncia</span>
+              <span>→</span>
+            </button>
+            <a href="tel:100" class="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-extrabold text-xs sm:text-sm transition">
+              <span>Ligar Disque 100 Agora</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ==========================================
+         ABA 3: CENTRAL DE DENÚNCIA E REGISTRO SEGURO
+    =========================================== -->
+    <section id="tab-denuncia" data-tab-panel="denuncia" class="tab-panel hidden space-y-6">
+
+      <!-- Direct Action Channels -->
+      <div class="bg-white rounded-2xl p-5 sm:p-6 shadow-sm border border-slate-200 space-y-4">
+        <div>
+          <span class="text-xs font-bold uppercase tracking-wider text-red-700">Acionamento Oficial e Gratuito</span>
+          <h2 class="font-display font-extrabold text-xl sm:text-2xl text-brand-800">
+            Canais Diretos de Proteção e Denúncia Anônima
+          </h2>
+          <p class="text-xs sm:text-sm text-slate-600 mt-1">
+            Toque em qualquer canal oficial abaixo para realizar ligação direta ou abrir o portal governamental de denúncia com sigilo garantido:
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <!-- Disque 100 -->
+          <a href="tel:100" class="group rounded-2xl p-5 bg-gradient-to-br from-amber-500 to-amber-600 text-slate-950 shadow-md hover:shadow-lg transition flex flex-col justify-between border border-amber-400">
+            <div class="space-y-2">
+              <div class="flex items-center justify-between">
+                <span class="px-2.5 py-0.5 rounded-full bg-slate-950/15 text-slate-950 font-extrabold text-xs uppercase">Ligação Gratuita 24h</span>
+                <svg class="w-6 h-6 text-slate-950 group-hover:scale-110 transition" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+              </div>
+              <h3 class="font-display font-extrabold text-2xl">Disque 100</h3>
+              <p class="text-xs sm:text-sm font-medium text-slate-900 leading-relaxed">
+                Ouvidoria Nacional dos Direitos Humanos. Atende 24h por dia, inclusive finais de semana. Ligação anônima de qualquer telefone fixo ou celular.
+              </p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-slate-950/15 flex items-center justify-between font-extrabold text-xs sm:text-sm">
+              <span>Tocar para Ligar (tel:100)</span>
+              <span>→</span>
+            </div>
+          </a>
+
+          <!-- MPT Denúncias -->
+          <a href="https://mpf.mp.br/ouvidoria" target="_blank" rel="noopener noreferrer" onclick="window.open('https://peticionamento.prt2.mpt.mp.br/denuncia', '_blank'); return false;" class="group rounded-2xl p-5 bg-brand-800 hover:bg-brand-700 text-white shadow-md hover:shadow-lg transition flex flex-col justify-between border border-brand-600">
+            <div class="space-y-2">
+              <div class="flex items-center justify-between">
+                <span class="px-2.5 py-0.5 rounded-full bg-white/15 text-amber-300 font-bold text-xs uppercase">Portal Oficial Web</span>
+                <svg class="w-6 h-6 text-amber-400 group-hover:translate-x-0.5 transition" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+              </div>
+              <h3 class="font-display font-extrabold text-xl">Ministério Público do Trabalho (MPT)</h3>
+              <p class="text-xs sm:text-sm text-blue-100 leading-relaxed">
+                Canal direto da Coordenadoria Nacional de Combate à Exploração do Trabalho da Criança e do Adolescente (Coordinfância/MPT) e app MPT Pardal.
+              </p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-white/15 flex items-center justify-between font-bold text-xs sm:text-sm text-amber-300">
+              <span>Abrir Portal MPT Denúncias</span>
+              <span>↗</span>
+            </div>
+          </a>
+
+          <!-- Sistema Ipê / Gov.br & Rede Local -->
+          <a href="https://ipe.sit.trabalho.gov.br/" target="_blank" rel="noopener noreferrer" class="group rounded-2xl p-5 bg-white hover:bg-slate-50 text-slate-900 shadow-sm hover:shadow-md transition flex flex-col justify-between border-2 border-brand-800/20">
+            <div class="space-y-2">
+              <div class="flex items-center justify-between">
+                <span class="px-2.5 py-0.5 rounded-full bg-blue-100 text-brand-800 font-bold text-xs uppercase">Sistema Gov.br / MTE</span>
+                <svg class="w-6 h-6 text-brand-700 group-hover:translate-x-0.5 transition" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              </div>
+              <h3 class="font-display font-extrabold text-xl text-brand-800">Sistema Ipê &amp; Rede Local (CT / CRAS / CREAS)</h3>
+              <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                Registre denúncias de trabalho infantil e análogo ao escravo na Inspeção do Trabalho (MTE) ou acione o <strong>Conselho Tutelar, CRAS ou CREAS</strong> do seu município.
+              </p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-slate-200 flex items-center justify-between font-bold text-xs sm:text-sm text-brand-700">
+              <span>Acessar Sistema Ipê (Gov.br)</span>
+              <span>↗</span>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <!-- Anonymous Report Assistant Form & Script Generator -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+
+        <!-- Form Column -->
+        <div class="lg:col-span-7 bg-white rounded-2xl p-5 sm:p-6 shadow-sm border border-slate-200 space-y-4">
+          <div class="border-b border-slate-100 pb-3">
+            <span class="text-xs font-bold uppercase tracking-wider text-brand-700">Assistente de Denúncia Anônima</span>
+            <h3 class="font-display font-extrabold text-lg sm:text-xl text-brand-800">
+              Gerador de Relato Estruturado
+            </h3>
+            <p class="text-xs sm:text-sm text-slate-600 mt-0.5">
+              Muitas pessoas deixam de denunciar por não saberem como descrever a ocorrência. Preencha os dados observados abaixo para gerar um <strong>Roteiro Pronto</strong> para ler ao telefone (Disque 100) ou colar no site do MPT/Ipê:
+            </p>
+          </div>
+
+          <form id="form-relato" class="space-y-4" novalidate>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label for="relato-tipo-local" class="block text-xs font-bold text-slate-800 mb-1">
+                  1. Tipo de Local *
+                </label>
+                <select id="relato-tipo-local" required class="w-full rounded-xl border border-slate-300 bg-slate-50 px-3.5 py-2.5 text-sm text-slate-900 focus:bg-white focus:border-brand-600 focus:outline-none focus:ring-2 focus:ring-brand-500/20">
+                  <option value="Via Pública / Semáforo / Feira Livre">Via Pública / Semáforo / Feira Livre</option>
+                  <option value="Estabelecimento Comercial / Bares / Mercados">Estabelecimento Comercial / Bares / Mercados</option>
+                  <option value="Residência de Terceiros (Trabalho Infantil Doméstico)">Residência de Terceiros (Trabalho Infantil Doméstico)</option>
+                  <option value="Oficina / Lava-rápido / Construção Civil (Lista TIP)">Oficina / Lava-rápido / Construção Civil (Lista TIP)</option>
+                  <option value="Zona Rural / Lavoura / Carvoaria">Zona Rural / Lavoura / Carvoaria</option>
+                  <option value="Ambiente Escolar (Identificação de Sinais Físicos/Evasão)">Ambiente Escolar (Identificação de Sinais Físicos/Evasão)</option>
+                </select>
+              </div>
+
+              <div>
+                <label for="relato-horario" class="block text-xs font-bold text-slate-800 mb-1">
+                  2. Horário e Frequência em que ocorre *
+                </label>
+                <input type="text" id="relato-horario" required placeholder="Ex: Seg a Sex, das 14h às 21h (horário escolar/noturno)" class="w-full rounded-xl border border-slate-300 bg-slate-50 px-3.5 py-2.5 text-sm text-slate-900 focus:bg-white focus:border-brand-600 focus:outline-none focus:ring-2 focus:ring-brand-500/20" />
+              </div>
+            </div>
+
+            <div>
+              <label for="relato-localizacao" class="block text-xs font-bold text-slate-800 mb-1">
+                3. Cidade, Bairro e Ponto de Referência Preciso *
+              </label>
+              <input type="text" id="relato-localizacao" required placeholder="Ex: São Paulo/SP, Bairro São Miguel Paulista, cruzamento da Av. Marechal Tito próx. ao nº 1200" class="w-full rounded-xl border border-slate-300 bg-slate-50 px-3.5 py-2.5 text-sm text-slate-900 focus:bg-white focus:border-brand-600 focus:outline-none focus:ring-2 focus:ring-brand-500/20" />
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label for="relato-idade-qtd" class="block text-xs font-bold text-slate-800 mb-1">
+                  4. Quantidade e Idade Aparente das Crianças *
+                </label>
+                <input type="text" id="relato-idade-qtd" required placeholder="Ex: 2 crianças (aparentando 9 e 12 anos)" class="w-full rounded-xl border border-slate-300 bg-slate-50 px-3.5 py-2.5 text-sm text-slate-900 focus:bg-white focus:border-brand-600 focus:outline-none focus:ring-2 focus:ring-brand-500/20" />
+              </div>
+
+              <div>
+                <label for="relato-gravidade" class="block text-xs font-bold text-slate-800 mb-1">
+                  5. Risco Aparente / Enquadramento
+                </label>
+                <select id="relato-gravidade" class="w-full rounded-xl border border-slate-300 bg-slate-50 px-3.5 py-2.5 text-sm text-slate-900 focus:bg-white focus:border-brand-600 focus:outline-none focus:ring-2 focus:ring-brand-500/20">
+                  <option value="Risco Grave / Lista TIP (Piores Formas de Trabalho Infantil)">Risco Grave / Lista TIP (Piores Formas)</option>
+                  <option value="Trabalho Proibido para Menores de 14 anos (Art. 7º CF)">Proibido para Menores de 14 anos</option>
+                  <option value="Suspeita de Trabalho Análogo ao Escravo / Doméstico (Art. 149 CP)">Suspeita de Servidão / Trabalho Doméstico (Art. 149 CP)</option>
+                  <option value="Risco de Evasão Escolar e Violação do ECA">Risco de Evasão Escolar e Violação do ECA</option>
+                </select>
+              </div>
+            </div>
+
+            <div>
+              <label for="relato-descricao" class="block text-xs font-bold text-slate-800 mb-1">
+                6. Atividade Exercida e Riscos Visíveis Observados *
+              </label>
+              <textarea id="relato-descricao" rows="3" required placeholder="Descreva o que a criança está fazendo, se carrega peso, manuseia produtos perigosos, se há adulto vigiando ou sinais de exaustão..." class="w-full rounded-xl border border-slate-300 bg-slate-50 px-3.5 py-2.5 text-sm text-slate-900 focus:bg-white focus:border-brand-600 focus:outline-none focus:ring-2 focus:ring-brand-500/20"></textarea>
+            </div>
+
+            <div class="flex items-center gap-2.5 pt-1">
+              <input type="checkbox" id="relato-salvar-local" checked class="w-4 h-4 rounded text-brand-700 focus:ring-brand-600" />
+              <label for="relato-salvar-local" class="text-xs text-slate-700 cursor-pointer">
+                Salvar no histórico local deste dispositivo (<code class="bg-slate-100 px-1 py-0.5 rounded">localStorage</code>) com protocolo comunitário simulado.
+              </label>
+            </div>
+
+            <div class="flex flex-wrap items-center gap-3 pt-2">
+              <button type="submit" class="flex-1 sm:flex-initial inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-brand-800 hover:bg-brand-700 text-white font-extrabold text-sm shadow-md transition">
+                <svg class="w-5 h-5 text-amber-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><path d="m9 15 2 2 4-4"/></svg>
+                <span>Gerar Roteiro de Denúncia Pronto</span>
+              </button>
+
+              <button type="button" id="btn-demo-relato" class="px-4 py-3.5 rounded-xl border border-slate-300 hover:bg-slate-100 text-slate-700 font-semibold text-xs sm:text-sm transition">
+                Preencher Exemplo Simulado
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Output Script & Local History Column -->
+        <div class="lg:col-span-5 flex flex-col gap-4">
+          <div class="bg-brand-900 text-white rounded-2xl p-5 shadow-md border border-brand-700 space-y-3 flex-1 flex flex-col justify-between">
+            <div class="space-y-3">
+              <div class="flex items-center justify-between gap-2">
+                <span class="px-2.5 py-1 rounded-md bg-amber-500 text-slate-950 font-extrabold text-xs uppercase">
+                  Roteiro Pronto para Uso
+                </span>
+                <span id="protocolo-badge" class="text-xs font-mono text-blue-200">
+                  Protocolo: aguardando...
+                </span>
+              </div>
+
+              <p class="text-xs text-blue-200">
+                Leia este texto ao atendente do <strong>Disque 100</strong> ou copie e cole no formulário eletrônico do <strong>MPT / Sistema Ipê</strong>:
+              </p>
+
+              <pre id="roteiro-output" class="w-full h-56 overflow-y-auto whitespace-pre-wrap rounded-xl bg-slate-950/80 border border-brand-700 p-3.5 text-xs font-mono text-slate-100 leading-relaxed">Preencha o formulário ao lado ou clique em "Preencher Exemplo Simulado" para gerar automaticamente o seu roteiro técnico estruturado de denúncia anônima.</pre>
+            </div>
+
+            <div class="pt-3 flex flex-wrap gap-2">
+              <button type="button" id="btn-copiar-roteiro" class="flex-1 inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-extrabold text-xs sm:text-sm transition">
+                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                <span id="copy-btn-label">Copiar Relato</span>
+              </button>
+              <a href="tel:100" class="inline-flex items-center justify-center gap-1.5 px-4 py-3 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold text-xs sm:text-sm border border-white/20 transition">
+                <span>Ligar 100</span>
+              </a>
+            </div>
+          </div>
+
+          <!-- Saved Local Reports History -->
+          <div class="bg-white rounded-2xl p-4 shadow-sm border border-slate-200 space-y-3">
+            <div class="flex items-center justify-between">
+              <h4 class="font-display font-bold text-sm text-brand-800">
+                Histórico de Relatos Simulados no Dispositivo
+              </h4>
+              <button type="button" id="btn-clear-relatos" class="text-[11px] font-semibold text-red-700 hover:underline">
+                Limpar histórico
+              </button>
+            </div>
+            <div id="relatos-history-list" class="space-y-2 max-h-44 overflow-y-auto text-xs">
+              <!-- Populated by JS -->
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- ==========================================
+         ABA 4: PROJETO DE EXTENSÃO & AVALIAÇÃO ACADÊMICA
+    =========================================== -->
+    <section id="tab-extensao" data-tab-panel="extensao" class="tab-panel hidden space-y-6">
+
+      <!-- Institutional Academic Banner -->
+      <div class="bg-white rounded-2xl p-5 sm:p-6 shadow-sm border border-slate-200 space-y-4">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-100 pb-4">
+          <div class="space-y-1">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-100 text-brand-800 text-xs font-extrabold uppercase">
+              Universidade Cruzeiro do Sul • Engenharia de Software
+            </div>
+            <h2 class="font-display font-extrabold text-xl sm:text-2xl text-brand-800">
+              Ação Extensionista: Agir Local e Pensar Global (ODS 8)
+            </h2>
+            <p class="text-xs sm:text-sm text-slate-600">
+              Área Temática: <strong>Erradicação do Trabalho Infantil e Forçado (Meta 8.7 da ONU)</strong> e <strong>Proteção de Direitos Trabalhistas</strong>.
+            </p>
+          </div>
+
+          <!-- Live Impact Counters -->
+          <div class="grid grid-cols-3 gap-2.5 shrink-0">
+            <div class="p-3 rounded-xl bg-brand-800 text-white text-center">
+              <span id="metric-acessos" class="font-display font-extrabold text-xl sm:text-2xl block text-amber-400">0</span>
+              <span class="text-[10px] uppercase tracking-wider text-blue-100 block">Acessos / Impacto</span>
+            </div>
+            <div class="p-3 rounded-xl bg-brand-50 border border-brand-200 text-center">
+              <span id="metric-avaliacoes" class="font-display font-extrabold text-xl sm:text-2xl block text-brand-800">0</span>
+              <span class="text-[10px] uppercase tracking-wider text-slate-600 block">Avaliações</span>
+            </div>
+            <div class="p-3 rounded-xl bg-amber-50 border border-amber-200 text-center">
+              <span id="metric-media" class="font-display font-extrabold text-xl sm:text-2xl block text-amber-700">5.0 ★</span>
+              <span class="text-[10px] uppercase tracking-wider text-slate-600 block">Nota Média</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs sm:text-sm text-slate-700 leading-relaxed">
+          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200/80 space-y-1.5">
+            <strong class="font-display font-bold text-brand-800 block">1. Problema Social Abordado</strong>
+            <p class="text-xs text-slate-600">
+              O Brasil possui 1,65 milhão de crianças e adolescentes em trabalho infantil (62,7% negras; 73,5% no trabalho doméstico). A subnotificação ocorre porque a comunidade muitas vezes naturaliza o trabalho precoce ou desconhece como formular uma denúncia segura.
+            </p>
+          </div>
+          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200/80 space-y-1.5">
+            <strong class="font-display font-bold text-brand-800 block">2. Solução de Engenharia de Software</strong>
+            <p class="text-xs text-slate-600">
+              Desenvolvimento de uma Progressive Web App (PWA) Mobile-First de código aberto, gratuita e sem barreira de login, que traduz indicadores da Lista TIP e do ECA em um checklist interativo de risco e gera roteiros estruturados para o Disque 100 e MPT.
+            </p>
+          </div>
+          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200/80 space-y-1.5">
+            <strong class="font-display font-bold text-brand-800 block">3. Atuação Multidisciplinar</strong>
+            <p class="text-xs text-slate-600">
+              Integra Engenharia de Software, Direito Trabalhista/ECA, Educação e Serviço Social para mobilizar estudantes, docentes e cidadãos como agentes multiplicadores da Aliança 8.7 da ONU no território local.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Peer Validation Form & Export Dashboard -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+
+        <!-- Peer Feedback Form -->
+        <div class="lg:col-span-6 bg-white rounded-2xl p-5 sm:p-6 shadow-sm border border-slate-200 space-y-4">
+          <div>
+            <span class="text-xs font-bold uppercase tracking-wider text-amber-700">Validação pela Comunidade Acadêmica</span>
+            <h3 class="font-display font-extrabold text-lg sm:text-xl text-brand-800">
+              Formulário de Avaliação de Usabilidade e Impacto Social
+            </h3>
+            <p class="text-xs sm:text-sm text-slate-600 mt-0.5">
+              Colega estudante, professor(a) ou membro da comunidade: registre sua avaliação abaixo para compor os indicadores do Relatório Final de Extensão:
+            </p>
+          </div>
+
+          <form id="form-feedback" class="space-y-4">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div>
+                <label for="fb-nome" class="block text-xs font-bold text-slate-800 mb-1">
+                  Nome ou Identificação (Opcional)
+                </label>
+                <input type="text" id="fb-nome" placeholder="Ex: Estudante ADS / Eng. Software" class="w-full rounded-xl border border-slate-300 bg-slate-50 px-3.5 py-2.5 text-sm text-slate-900 focus:bg-white focus:border-brand-600 focus:outline-none" />
+              </div>
+              <div>
+                <label for="fb-perfil" class="block text-xs font-bold text-slate-800 mb-1">
+                  Vínculo com a Comunidade *
+                </label>
+                <select id="fb-perfil" required class="w-full rounded-xl border border-slate-300 bg-slate-50 px-3.5 py-2.5 text-sm text-slate-900 focus:bg-white focus:border-brand-600 focus:outline-none">
+                  <option value="Estudante Universitário (Cruzeiro do Sul)">Estudante Universitário (Cruzeiro do Sul)</option>
+                  <option value="Docente / Tutor Acadêmico">Docente / Tutor Acadêmico</option>
+                  <option value="Profissional da Educação / Saúde / Assistência">Profissional da Educação / Saúde / Assistência</option>
+                  <option value="Membro da Comunidade Externa">Membro da Comunidade Externa</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- 1 to 5 Star Rating -->
+            <div>
+              <span class="block text-xs font-bold text-slate-800 mb-1.5">
+                Nota de Usabilidade e Relevância do Aplicativo (1 a 5 estrelas) *
+              </span>
+              <div id="star-rating-group" class="flex items-center gap-2" role="radiogroup" aria-label="Nota de 1 a 5 estrelas">
+                <button type="button" data-star="1" class="star-btn w-11 h-11 rounded-xl border border-slate-300 bg-amber-50 text-amber-500 font-bold text-lg flex items-center justify-center transition" aria-label="1 estrela">★</button>
+                <button type="button" data-star="2" class="star-btn w-11 h-11 rounded-xl border border-slate-300 bg-amber-50 text-amber-500 font-bold text-lg flex items-center justify-center transition" aria-label="2 estrelas">★</button>
+                <button type="button" data-star="3" class="star-btn w-11 h-11 rounded-xl border border-slate-300 bg-amber-50 text-amber-500 font-bold text-lg flex items-center justify-center transition" aria-label="3 estrelas">★</button>
+                <button type="button" data-star="4" class="star-btn w-11 h-11 rounded-xl border border-slate-300 bg-amber-50 text-amber-500 font-bold text-lg flex items-center justify-center transition" aria-label="4 estrelas">★</button>
+                <button type="button" data-star="5" class="star-btn w-11 h-11 rounded-xl border border-slate-300 bg-amber-50 text-amber-500 font-bold text-lg flex items-center justify-center transition" aria-label="5 estrelas">★</button>
+                <span id="star-rating-label" class="text-xs font-bold text-slate-700 ml-2">5/5 - Excelente</span>
+              </div>
+              <input type="hidden" id="fb-nota" value="5" />
+            </div>
+
+            <!-- Key Pedagogical Question -->
+            <div>
+              <label for="fb-ajudou" class="block text-xs font-bold text-slate-800 mb-1">
+                Este app ajudou você a identificar sinais de trabalho infantil e conhecer os canais de denúncia? *
+              </label>
+              <select id="fb-ajudou" required class="w-full rounded-xl border border-slate-300 bg-slate-50 px-3.5 py-2.5 text-sm text-slate-900 focus:bg-white focus:border-brand-600 focus:outline-none">
+                <option value="Sim, ampliou totalmente minha capacidade de identificar e agir">Sim, ampliou totalmente minha capacidade de identificar e agir</option>
+                <option value="Sim, esclareceu dúvidas importantes sobre a Lista TIP e o Disque 100">Sim, esclareceu dúvidas importantes sobre a Lista TIP e o Disque 100</option>
+                <option value="Parcialmente, já conhecia parte dos canais">Parcialmente, já conhecia parte dos canais</option>
+                <option value="Não">Não</option>
+              </select>
+            </div>
+
+            <!-- Comment / Suggestion -->
+            <div>
+              <label for="fb-comentario" class="block text-xs font-bold text-slate-800 mb-1">
+                Comentário, Depoimento ou Sugestão de Melhoria *
+              </label>
+              <textarea id="fb-comentario" rows="3" required placeholder="Deixe seu parecer sobre a interface, clareza dos dados do ODS 8.7 ou utilidade do gerador de denúncias..." class="w-full rounded-xl border border-slate-300 bg-slate-50 px-3.5 py-2.5 text-sm text-slate-900 focus:bg-white focus:border-brand-600 focus:outline-none"></textarea>
+            </div>
+
+            <button type="submit" class="w-full inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-brand-800 hover:bg-brand-700 text-white font-extrabold text-sm shadow-md transition">
+              <svg class="w-5 h-5 text-amber-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+              <span>Registrar Avaliação Acadêmica</span>
+            </button>
+          </form>
+        </div>
+
+        <!-- Feedback List & Data Export (CSV / JSON) -->
+        <div class="lg:col-span-6 flex flex-col justify-between bg-white rounded-2xl p-5 sm:p-6 shadow-sm border border-slate-200 space-y-4">
+          <div class="space-y-3">
+            <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 pb-3">
+              <div>
+                <span class="text-xs font-bold uppercase tracking-wider text-brand-700">Coleta de Métricas para Relatório</span>
+                <h3 class="font-display font-extrabold text-lg text-brand-800">
+                  Avaliações Registradas &amp; Exportação de Dados
+                </h3>
+              </div>
+              <div class="flex items-center gap-2">
+                <button type="button" id="btn-export-csv" class="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-sm transition">
+                  <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                  <span>Exportar CSV</span>
+                </button>
+                <button type="button" id="btn-export-json" class="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-brand-800 hover:bg-brand-700 text-white font-bold text-xs shadow-sm transition">
+                  <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                  <span>Exportar JSON</span>
+                </button>
+              </div>
+            </div>
+
+            <p class="text-xs text-slate-600">
+              Os feedbacks abaixo incluem as avaliações de validação com colegas da comunidade acadêmica e podem ser exportados em <strong>CSV</strong> (Excel/Planilhas) ou <strong>JSON</strong> para anexação direta no Relatório Oficial de Extensão:
+            </p>
+
+            <!-- Evaluations Feed -->
+            <div id="feedback-list" class="space-y-2.5 max-h-80 overflow-y-auto pr-1">
+              <!-- Populated by JS -->
+            </div>
+          </div>
+
+          <div class="pt-3 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
+            <span>Armazenamento 100% persistente via Web Storage API</span>
+            <button type="button" id="btn-restore-seed" class="font-semibold text-brand-700 hover:underline">
+              Restaurar dados de demonstração
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- Toast Notification -->
+  <div id="toast-notification" role="status" aria-live="polite" class="fixed bottom-20 md:bottom-6 right-4 z-50 hidden max-w-sm rounded-xl bg-slate-900 text-white px-4 py-3 shadow-xl border border-slate-700 text-xs sm:text-sm font-medium flex items-center gap-2.5">
+    <span class="w-2.5 h-2.5 rounded-full bg-amber-400 shrink-0"></span>
+    <span id="toast-message">Ação concluída com sucesso!</span>
+  </div>
+
+  <!-- Mobile Bottom Navigation Bar (App Native Style) -->
+  <nav aria-label="Navegação inferior mobile" class="md:hidden fixed bottom-0 inset-x-0 z-40 bg-white border-t border-slate-200 shadow-[0_-4px_16px_rgba(15,44,89,0.08)]">
+    <div class="grid grid-cols-4 h-16 max-w-md mx-auto">
+      <button type="button" data-tab-target="inicio" class="nav-tab-btn active-tab flex flex-col items-center justify-center gap-1 text-[11px] font-bold transition">
+        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        <span>Início</span>
+      </button>
+
+      <button type="button" data-tab-target="sinais" class="nav-tab-btn flex flex-col items-center justify-center gap-1 text-[11px] font-bold transition">
+        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/><path d="M11 8v6"/><path d="M8 11h6"/></svg>
+        <span>Identificar</span>
+      </button>
+
+      <button type="button" data-tab-target="denuncia" class="nav-tab-btn flex flex-col items-center justify-center gap-1 text-[11px] font-bold transition">
+        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
+        <span>Denunciar</span>
+      </button>
+
+      <button type="button" data-tab-target="extensao" class="nav-tab-btn flex flex-col items-center justify-center gap-1 text-[11px] font-bold transition">
+        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+        <span>Extensão</span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Main Modular JavaScript -->
+  <script src="./app.js" defer></script>
+</body>
+</html>
+

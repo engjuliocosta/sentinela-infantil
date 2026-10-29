@@ -1,0 +1,5 @@
+# Documentos locais não rastreados no repositório público
+*.docx
+*.txt
+.~lock.*
+docs/

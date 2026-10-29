@@ -1,0 +1,28 @@
+{
+  "name": "Sentinela Infantil — Combate ao Trabalho Infantil (ODS 8.7)",
+  "short_name": "Sentinela Infantil",
+  "description": "Aplicação Mobile-First (PWA) de conscientização, identificação de sinais de risco e apoio à denúncia segura contra o trabalho infantil e forçado. Projeto de Extensão em Engenharia de Software - Universidade Cruzeiro do Sul.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#0F2C59",
+  "theme_color": "#0F2C59",
+  "lang": "pt-BR",
+  "categories": ["education", "social", "government", "utilities"],
+  "icons": [
+    {
+      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'%3E%3Crect width='192' height='192' rx='42' fill='%230F2C59'/%3E%3Cpath d='M96 28L40 52v44c0 38 24 72 56 84 32-12 56-46 56-84V52L96 28z' fill='%23F59E0B'/%3E%3Cpath d='M96 46L56 63v32c0 28 17 54 40 65 23-11 40-37 40-65V63L96 46z' fill='%230F2C59'/%3E%3Ccircle cx='96' cy='84' r='15' fill='%23FFFFFF'/%3E%3Cpath d='M72 124c0-13.3 10.7-24 24-24s24 10.7 24 24' stroke='%23FFFFFF' stroke-width='10' stroke-linecap='round' fill='none'/%3E%3C/svg%3E",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='112' fill='%230F2C59'/%3E%3Cpath d='M256 74L106 138v118c0 101 64 192 150 224 86-32 150-123 150-224V138L256 74z' fill='%23F59E0B'/%3E%3Cpath d='M256 122l-106 45v86c0 75 45 144 106 173 61-29 106-98 106-173v-86L256 122z' fill='%230F2C59'/%3E%3Ccircle cx='256' cy='224' r='40' fill='%23FFFFFF'/%3E%3Cpath d='M192 330c0-35.3 28.7-64 64-64s64 28.7 64 64' stroke='%23FFFFFF' stroke-width='26' stroke-linecap='round' fill='none'/%3E%3C/svg%3E",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
+
